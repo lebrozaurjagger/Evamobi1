@@ -12,7 +12,7 @@ struct CardView: View {
     @State var exactLocation: String
     @State var image: String
     @State var countOfSpecies: Int
-    @State var isFav: Int
+    @State var isFav: Bool = false
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -20,28 +20,32 @@ struct CardView: View {
                 Spacer()
                 
                 VStack {
-                    Image("heartempty")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 20, height: 20)
-                        .background(
-                            Rectangle()
-                                .cornerRadius(16)
-                                .foregroundColor(.white)
-                                .frame(width: 28, height: 28)
-                        )
+                    Button {
+                        withAnimation {
+                            isFav.toggle()
+                        }
+                    } label: {
+                        Image(isFav == true ? "heart" : "heartempty")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20, height: 20)
+                            .background(
+                                Rectangle()
+                                    .cornerRadius(16)
+                                    .foregroundColor(.white)
+                                    .frame(width: 28, height: 28)
+                            )
+                    }
                     
                     Spacer()
                 }
             }
             .padding(18)
             .background(
-                Image(image)
-                    .resizable()
-                    .scaledToFill()
+                Rectangle()
                     .cornerRadius(24)
             )
-            .frame(width: 358, height: 180)
+            .frame(height: 180)
             
             HStack {
                 Text(location)
@@ -79,10 +83,10 @@ struct CardView: View {
                     .foregroundColor(.customBlue)
             }
         }
-        .padding()
+        .padding(.vertical)
     }
 }
 
 #Preview {
-    CardView(location: "TempLocation", exactLocation: "TempExactLocation", image: "LakeOntario", countOfSpecies: 9, isFav: 0)
+    ExploreView()
 }

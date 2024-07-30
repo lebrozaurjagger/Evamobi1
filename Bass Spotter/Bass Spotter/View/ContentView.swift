@@ -8,22 +8,28 @@
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject private var onboardingViewModel = OnboardingViewModel()
+    
+    @State private var showLoadingView = true
+
     var body: some View {
-        TabView {
-            ExploreView()
-                .tabItem {
-                    Label("Explore", image: "")
+        Group {
+            if showLoadingView {
+                LoadingView()
+                    .onAppear {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                            withAnimation {
+                                self.showLoadingView = false
+                            }
+                        }
+                    }
+            } else {
+                if onboardingViewModel.hasCompletedOnboarding {
+                    HomeView()
+                } else {
+                    OnboardingView(onboardingViewModel: onboardingViewModel)
                 }
-            
-            FavoritesView()
-                .tabItem {
-                    Label("Favorites", image: "")
-                }
-            
-            SettingsView()
-                .tabItem {
-                    Label("Settings", image: "")
-                }
+            }
         }
     }
 }
