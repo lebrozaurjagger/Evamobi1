@@ -86,10 +86,9 @@ struct OnboardingView: View {
                 VStack(alignment: .center, spacing: 16) {
                     Text(title)
                         .multilineTextAlignment(.center)
-                        .font(.custom("PlusJakartaSans-VariableFont_wght", size: 32))
+                        .font(.system(size: 32, weight: .black))
                         .foregroundColor(.white)
                         .padding(.bottom, 16)
-                        .shadow(color: .customBlue, radius: 1)
                     
                     Text(description)
                         .multilineTextAlignment(.center)

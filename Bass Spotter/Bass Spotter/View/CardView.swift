@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CardView: View {
     @Binding var location: Location
+    @EnvironmentObject var locationsModel: LocationsModel
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -38,8 +39,14 @@ struct CardView: View {
             }
             .padding(18)
             .background(
-                Rectangle()
-                    .cornerRadius(24)
+                GeometryReader { geometry in
+                    Image(location.imageName)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: geometry.size.width, height: 180)
+                        .clipped()
+                        .cornerRadius(24)
+                }
             )
             .frame(height: 180)
             

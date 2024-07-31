@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct LocationView: View {
+    @EnvironmentObject var locationsModel: LocationsModel
     @Binding var location: Location
-    
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
@@ -40,6 +40,7 @@ struct LocationView: View {
                         
                         Spacer()
                         
+//                        Button For Favorite:
                         Button {
                             withAnimation {
                                 location.isFav.toggle()
@@ -59,10 +60,17 @@ struct LocationView: View {
                     }
                     .padding(.horizontal)
                     
-                    Image(location.imageName)
-                        .resizable()
-                        .scaledToFit()
+                    Rectangle()
+                        .foregroundColor(.clear)
                         .frame(height: 240)
+                        .background(
+                            Image(location.imageName)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(height: 240)
+                                .clipped()
+                        )
+                        .edgesIgnoringSafeArea(.all)
                     
                     VStack(alignment: .leading) {
                         HStack {
@@ -106,13 +114,28 @@ struct LocationView: View {
                         
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack {
-                                FilterSpecies(name: "Bass", image: "bass")
-                                FilterSpecies(name: "Bass", image: "bass")
-                                FilterSpecies(name: "Bass", image: "bass")
-                                FilterSpecies(name: "Bass", image: "bass")
+                                if location.bass {
+                                    FilterSpecies(name: "Bass", image: "bass")
+                                }
+                                if location.pike {
+                                    FilterSpecies(name: "Pike", image: "pike")
+                                }
+                                if location.walleye {
+                                    FilterSpecies(name: "Walleye", image: "walleye")
+                                }
+                                if location.carp {
+                                    FilterSpecies(name: "Carp", image: "carp")
+                                }
+                                if location.trout {
+                                    FilterSpecies(name: "Trout", image: "trout")
+                                }
+                                if location.salmon {
+                                    FilterSpecies(name: "Salmon", image: "salmon")
+                                }
                             }
+                            .padding(.horizontal, 16)
                         }
-                        .padding(.trailing, -16)
+                        .padding(.horizontal, -16)
                         
                         Text("Description")
                             .font(.custom("PlusJakartaSans-VariableFont_wght", size: 24))

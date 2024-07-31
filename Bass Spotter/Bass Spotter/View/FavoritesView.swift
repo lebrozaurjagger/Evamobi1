@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FavoritesView: View {
-    @StateObject private var locationModel = LocationsModel()
+    @EnvironmentObject private var locationModel: LocationsModel
     
     var body: some View {
         NavigationView {
@@ -56,5 +56,5 @@ struct FavoritesView: View {
 }
 
 #Preview {
-    FavoritesView()
+    HomeView()
 }

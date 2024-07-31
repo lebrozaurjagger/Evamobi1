@@ -8,9 +8,10 @@
 import SwiftUI
 
 struct ExploreView: View {
-    @State private var selectedButton: Int = 1
-    
+    @State private var selectedButton: Int = 0
     @StateObject private var locationModel = LocationsModel()
+    
+    private let buttonTitles = ["All", "Bass", "Pike", "Walleye", "Carp", "Trout", "Salmon"]
     
     var body: some View {
         NavigationView {
@@ -29,60 +30,23 @@ struct ExploreView: View {
                         
                         ScrollView(.horizontal, showsIndicators: false) {
                             HStack {
-                                ZStack {
-                                    Rectangle()
-                                        .foregroundColor(.white)
-                                        .shadow(radius: 4)
-                                        .frame(width: 90, height: 100)
-                                        .cornerRadius(24)
-                                    
-                                    Text("All")
-                                        .font(.custom("PlusJakartaSans-VariableFont_wght", size: 16))
-                                }
-                                
-                                Button {
-                                    withAnimation {
-                                        
+                                ForEach(0..<buttonTitles.count, id: \.self) { index in
+                                    Button {
+                                        withAnimation {
+                                            selectedButton = index
+                                        }
+                                    } label: {
+                                        FilterSpecies(name: buttonTitles[index], image: buttonTitles[index].lowercased())
+                                            .background(selectedButton == index ? Color.white : Color.clear)
+                                            .cornerRadius(24)
+                                            .shadow(color: selectedButton == index ? .customBlue : .clear, radius: 1)
+                                            .padding(.horizontal, 4)
+                                            .padding(.vertical, selectedButton == index ? 2 : 0)
                                     }
-                                } label: {
-                                    FilterSpecies(name: "Bass", image: "bass")
-                                }
-                                Button {
-                                    withAnimation {
-                                        
-                                    }
-                                } label: {
-                                    FilterSpecies(name: "Pike", image: "pike")
-                                }
-                                Button {
-                                    withAnimation {
-                                        
-                                    }
-                                } label: {
-                                    FilterSpecies(name: "Walleye", image: "walleye")
-                                }
-                                Button {
-                                    withAnimation {
-                                        
-                                    }
-                                } label: {
-                                    FilterSpecies(name: "Carp", image: "carp")
-                                }
-                                Button {
-                                    withAnimation {
-                                        
-                                    }
-                                } label: {
-                                    FilterSpecies(name: "Trout", image: "trout")
-                                }
-                                Button {
-                                    withAnimation {
-                                        
-                                    }
-                                } label: {
-                                    FilterSpecies(name: "Salmon", image: "salmon")
+                                    .shadow(color: selectedButton == index ? .customBlue : .clear, radius: 1)
                                 }
                             }
+                            .foregroundColor(.black)
                             .padding(.horizontal, 16)
                         }
                         .padding(.horizontal, -16)
@@ -91,16 +55,33 @@ struct ExploreView: View {
                             .font(.custom("PlusJakartaSans-VariableFont_wght", size: 24))
                             .padding(.top, 32)
                         
-                        VStack {
-                            ForEach($locationModel.locations) { $location in
-                                NavigationLink(destination: LocationView(location: $location)) {
-                                    CardView(location: $location)
-                                }
-                            }
-                        }
-                        .foregroundColor(.black)
+                        contentForSelectedButton()
+                            .foregroundColor(.black)
                     }
                     .padding()
+                }
+            }
+        }
+    }
+    
+    @ViewBuilder
+    private func contentForSelectedButton() -> some View {
+        let filteredLocations: [Location] = {
+            switch selectedButton {
+            case 1: return locationModel.locations.filter { $0.bass }
+            case 2: return locationModel.locations.filter { $0.pike }
+            case 3: return locationModel.locations.filter { $0.walleye }
+            case 4: return locationModel.locations.filter { $0.carp }
+            case 5: return locationModel.locations.filter { $0.trout }
+            case 6: return locationModel.locations.filter { $0.salmon }
+            default: return locationModel.locations
+            }
+        }()
+        
+        ForEach(filteredLocations) { location in
+            if let index = locationModel.locations.firstIndex(where: { $0.id == location.id }) {
+                NavigationLink(destination: LocationView(location: $locationModel.locations[index])) {
+                    CardView(location: $locationModel.locations[index])
                 }
             }
         }

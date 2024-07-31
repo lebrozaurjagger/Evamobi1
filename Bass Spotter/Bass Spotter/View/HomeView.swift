@@ -10,9 +10,12 @@ import SwiftUI
 struct HomeView: View {
     @State private var selectedTab = 0
     
+    @StateObject private var locationModel = LocationsModel()
+    
     var body: some View {
         TabView(selection: $selectedTab) {
             ExploreView()
+                .environmentObject(locationModel)
                 .tabItem {
                     Label {
                         Text("Explore")
@@ -25,6 +28,7 @@ struct HomeView: View {
                 .tag(0)
             
             FavoritesView()
+                .environmentObject(locationModel)
                 .tabItem {
                     Label {
                         Text("Favorites")
