@@ -8,11 +8,7 @@
 import SwiftUI
 
 struct CardView: View {
-    @State var location: String
-    @State var exactLocation: String
-    @State var image: String
-    @State var countOfSpecies: Int
-    @State var isFav: Bool = false
+    @Binding var location: Location
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -22,10 +18,10 @@ struct CardView: View {
                 VStack {
                     Button {
                         withAnimation {
-                            isFav.toggle()
+                            location.isFav.toggle()
                         }
                     } label: {
-                        Image(isFav == true ? "heart" : "heartempty")
+                        Image(location.isFav == true ? "heart" : "heartempty")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 20, height: 20)
@@ -48,7 +44,7 @@ struct CardView: View {
             .frame(height: 180)
             
             HStack {
-                Text(location)
+                Text(location.title)
                     .font(.custom("PlusJakartaSans-VariableFont_wght", size: 20))
                     .padding(.vertical, 4)
                 
@@ -60,7 +56,7 @@ struct CardView: View {
                         .scaledToFit()
                         .frame(width: 16, height: 16)
                     
-                    Text(String(countOfSpecies))
+                    Text(String(location.countOfSpecies))
                         .foregroundColor(.customBlue)
                 }
                 .padding(.vertical, 4)
@@ -78,7 +74,7 @@ struct CardView: View {
                     .scaledToFit()
                     .frame(width: 16, height: 16)
                 
-                Text(exactLocation)
+                Text(location.address)
                     .font(.custom("PlusJakartaSans-VariableFont_wght", size: 14))
                     .foregroundColor(.customBlue)
             }

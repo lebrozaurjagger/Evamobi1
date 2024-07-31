@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct ExploreView: View {
-    @State var selectedButton: Int? = 1
+    @State private var selectedButton: Int = 1
+    
+    @StateObject private var locationModel = LocationsModel()
     
     var body: some View {
         NavigationView {
@@ -90,9 +92,9 @@ struct ExploreView: View {
                             .padding(.top, 32)
                         
                         VStack {
-                            ForEach(locations) { location in
-                                NavigationLink(destination: LocationView()) {
-                                    CardView(location: location.title, exactLocation: location.address, image: location.imageName, countOfSpecies: location.countOfSpecies, isFav: false)
+                            ForEach($locationModel.locations) { $location in
+                                NavigationLink(destination: LocationView(location: $location)) {
+                                    CardView(location: $location)
                                 }
                             }
                         }

@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct LocationView: View {
+    @Binding var location: Location
+    
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
@@ -38,27 +40,33 @@ struct LocationView: View {
                         
                         Spacer()
                         
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 16)
-                                .frame(width: 32, height: 32)
-                                .foregroundColor(.white)
-                            
-                            Image("heartempty")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(height: 24)
+                        Button {
+                            withAnimation {
+                                location.isFav.toggle()
+                            }
+                        } label: {
+                            ZStack {
+                                RoundedRectangle(cornerRadius: 16)
+                                    .frame(width: 32, height: 32)
+                                    .foregroundColor(.white)
+                                
+                                Image(location.isFav == true ? "heart" : "heartempty")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 24)
+                            }
                         }
                     }
                     .padding(.horizontal)
                     
-                    Image("LakeOntario")
+                    Image(location.imageName)
                         .resizable()
                         .scaledToFit()
                         .frame(height: 240)
                     
                     VStack(alignment: .leading) {
                         HStack {
-                            Text("Lake Ontario")
+                            Text(location.title)
                                 .font(.custom("PlusJakartaSans-VariableFont_wght", size: 32))
                             
                             Spacer()
@@ -69,7 +77,7 @@ struct LocationView: View {
                                     .scaledToFit()
                                     .frame(width: 16, height: 16)
                                 
-                                Text("4")
+                                Text(String(location.countOfSpecies))
                                     .foregroundColor(.customBlue)
                             }
                             .padding(.vertical, 4)
@@ -87,7 +95,7 @@ struct LocationView: View {
                                 .scaledToFit()
                                 .frame(width: 16, height: 16)
                             
-                            Text("exactLocation")
+                            Text(location.address)
                                 .font(.custom("PlusJakartaSans-VariableFont_wght", size: 14))
                                 .foregroundColor(.customBlue)
                         }
@@ -111,7 +119,7 @@ struct LocationView: View {
                             .padding(.top, 16)
                             .padding(.bottom, 4)
                         
-                        Text("One of the Great Lakes, Lake Ontario offers vast fishing opportunities. The Toronto waterfront is a popular spot, providing beautiful views of the city skyline while you fish.")
+                        Text(location.description)
                             .font(.custom("PlusJakartaSans-VariableFont_wght", size: 16))
                         
                         Text("Hot seasons")
@@ -119,7 +127,7 @@ struct LocationView: View {
                             .padding(.top, 16)
                             .padding(.bottom, 4)
                         
-                        Text("May-Oct")
+                        Text(location.fishingSeason)
                             .font(.custom("PlusJakartaSans-VariableFont_wght", size: 16))
                     }
                     .padding(.horizontal)
@@ -131,5 +139,5 @@ struct LocationView: View {
 }
 
 #Preview {
-    LocationView()
+    ExploreView()
 }
