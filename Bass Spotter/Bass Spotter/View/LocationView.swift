@@ -13,6 +13,9 @@ struct LocationView: View {
     @Binding var location: Location
     @Environment(\.presentationMode) var presentationMode
     
+    @State private var isExpanded: Bool = false
+    private let lineLimit: Int = 3
+    
     var body: some View {
         ZStack {
             Rectangle()
@@ -144,6 +147,15 @@ struct LocationView: View {
                         
                         Text(location.description)
                             .font(.custom("PlusJakartaSans-VariableFont_wght", size: 16))
+                            .lineLimit(isExpanded ? nil : lineLimit)
+                            .animation(.easeOut, value: isExpanded)
+                        
+                        Button {
+                            isExpanded.toggle()
+                        } label: {
+                            Text(isExpanded ? "Show Less" : "Show More")
+                                .foregroundColor(.customBlue)
+                        }
                         
                         Text("Hot seasons")
                             .font(.custom("PlusJakartaSans-VariableFont_wght", size: 24))

@@ -8,5 +8,5 @@
 import SwiftUI
 
 struct UserDefaultsKeys {
-    static let universalKey = "JGTi1kN3fEnJl94eL0VAijbwuFhw9Jzi"
+    static let universalKey = "UFk9EqaS8LUj4K1mtLnHBgSPJGb42iyH"
 }
