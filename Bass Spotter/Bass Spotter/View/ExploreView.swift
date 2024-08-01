@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ExploreView: View {
     @State private var selectedButton: Int = 0
-    @StateObject private var locationModel = LocationsModel()
+    @EnvironmentObject var locationModel: LocationsModel
     
     private let buttonTitles = ["All", "Bass", "Pike", "Walleye", "Carp", "Trout", "Salmon"]
     
@@ -90,6 +90,7 @@ struct ExploreView: View {
 
 #Preview {
     ExploreView()
+        .environmentObject(LocationsModel())
 }
 
 struct FilterSpecies: View {

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CardView: View {
     @Binding var location: Location
-    @EnvironmentObject var locationsModel: LocationsModel
+    @EnvironmentObject var locationModel: LocationsModel
     
     var body: some View {
         VStack(alignment: .leading) {
@@ -19,10 +19,10 @@ struct CardView: View {
                 VStack {
                     Button {
                         withAnimation {
-                            location.isFav.toggle()
+                            locationModel.toggleFavorite(for: location)
                         }
                     } label: {
-                        Image(location.isFav == true ? "heart" : "heartempty")
+                        Image(location.isFav ? "heart" : "heartempty")
                             .resizable()
                             .scaledToFit()
                             .frame(width: 20, height: 20)
@@ -92,4 +92,5 @@ struct CardView: View {
 
 #Preview {
     ExploreView()
+        .environmentObject(LocationsModel())
 }

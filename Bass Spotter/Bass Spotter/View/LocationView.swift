@@ -1,3 +1,4 @@
+
 //
 //  LocationView.swift
 //  Bass Spotter
@@ -8,7 +9,7 @@
 import SwiftUI
 
 struct LocationView: View {
-    @EnvironmentObject var locationsModel: LocationsModel
+    @EnvironmentObject var locationModel: LocationsModel
     @Binding var location: Location
     @Environment(\.presentationMode) var presentationMode
     
@@ -40,10 +41,9 @@ struct LocationView: View {
                         
                         Spacer()
                         
-//                        Button For Favorite:
                         Button {
                             withAnimation {
-                                location.isFav.toggle()
+                                locationModel.toggleFavorite(for: location)
                             }
                         } label: {
                             ZStack {
@@ -163,4 +163,5 @@ struct LocationView: View {
 
 #Preview {
     ExploreView()
+        .environmentObject(LocationsModel())
 }

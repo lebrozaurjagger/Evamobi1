@@ -9,15 +9,13 @@ import SwiftUI
 import Combine
 
 class OnboardingViewModel: ObservableObject {
-    private var universalKey = "elXlL8q8DG"
-    
     @Published var hasCompletedOnboarding: Bool {
         didSet {
-            UserDefaults.standard.set(hasCompletedOnboarding, forKey: universalKey)
+            UserDefaults.standard.set(hasCompletedOnboarding, forKey: UserDefaultsKeys.universalKey)
         }
     }
     
     init() {
-        self.hasCompletedOnboarding = UserDefaults.standard.bool(forKey: universalKey)
+        self.hasCompletedOnboarding = UserDefaults.standard.bool(forKey: UserDefaultsKeys.universalKey)
     }
 }
